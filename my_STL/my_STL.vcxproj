@@ -110,6 +110,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="__Construct.h" />
     <ClInclude Include="__Iterator.h" />
     <ClInclude Include="__Type_traits.h" />
   </ItemGroup>

@@ -21,5 +21,8 @@
     <ClInclude Include="__Iterator.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="__Construct.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
