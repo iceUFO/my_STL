@@ -24,5 +24,16 @@
     <ClInclude Include="__Construct.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="__Alloc.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="__Allocator.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="__Alloc.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

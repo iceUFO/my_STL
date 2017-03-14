@@ -110,9 +110,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="__Alloc.h" />
+    <ClInclude Include="__Allocator.h" />
     <ClInclude Include="__Construct.h" />
     <ClInclude Include="__Iterator.h" />
     <ClInclude Include="__Type_traits.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="__Alloc.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
