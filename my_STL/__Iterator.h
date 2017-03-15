@@ -1,4 +1,3 @@
-#pragma once
 #ifndef __ITERATOR_H
 #define __ITERATOR_H
 
@@ -128,7 +127,7 @@ namespace my_STL
 
 	//»ñÈ¡µü´úÆ÷value type
 	template <typename Iterator>
-	struct value_type
+	inline typename iterator_traits<Iterator>::value_type value_type(const Iterator &)
 	{
 		return static_cast<typename iterator_traits<Iterator>::value_type*>(0);
 	};
