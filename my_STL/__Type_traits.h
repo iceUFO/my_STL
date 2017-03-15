@@ -1,4 +1,3 @@
-#pragma once
 #ifndef __TYPE_TRAITS_H_
 #define __TYPE_TRAITS_H_
 
