@@ -110,11 +110,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="__Algorithm.h" />
     <ClInclude Include="__Alloc.h" />
     <ClInclude Include="__Allocator.h" />
     <ClInclude Include="__Construct.h" />
     <ClInclude Include="__Iterator.h" />
     <ClInclude Include="__Type_traits.h" />
+    <ClInclude Include="__Uninitialized.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="__Alloc.cpp" />
