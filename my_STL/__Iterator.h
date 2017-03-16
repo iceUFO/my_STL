@@ -196,7 +196,7 @@ namespace my_STL
 	inline void advance(InputIterator &i, Distance n)
 	{
 		using category = iterator_traits<InputIterator>::iterator_category;
-		advance(i, n, category(i));
+		__advance(i, n, category(i));
 	}
 }
 
