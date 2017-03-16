@@ -7,6 +7,47 @@
 
 namespace my_STL
 {
+	//max
+	//****************************************
+	template <typename T>
+	inline const T &max(const T &a, const T &b)
+	{
+		return a < b ? b : a;
+	}
+
+	template <typename T, typename Compare>
+	inline const T &max(const T &a, const T &b, Compare comp)
+	{
+		return comp(a, b) ? b : a;
+	}
+	//****************************************
+
+	//min
+	//****************************************
+	template <typename T>
+	inline const T &min(const T &a, const T &b)
+	{
+		return b < a ? b : a;
+	}
+
+	template <typename T, typename Compare>
+	inline const T &min(const T &a, const T &b, Compare comp)
+	{
+		return comp(b, a) ? b : a;              //由comp决定比较标准
+	}
+	//****************************************
+
+	//swap
+	//****************************************
+	template <typename T>
+	inline void swap(T &a, T &b)
+	{
+		T temp = a;
+		a = b;
+		b = temp;
+	}
+	//****************************************
+
 	//fill
 	//****************************************
 	template <typename ForwardIterator, typename T>
@@ -111,7 +152,7 @@ namespace my_STL
 	inline OutputIterator __copy_d(RandomAccessIterator first, RandomAccessIterator last, 
 		OutputIterator result, Distance*)
 	{
-		for (Distance n = last - first; n > 0; --n, ++result, ++first)
+		for (Distance n = last - first; n > 0; --n, ++result, ++first)  //用n决定循环，速度快
 		{
 			*result = *first;
 		}
