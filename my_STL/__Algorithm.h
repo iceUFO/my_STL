@@ -18,7 +18,7 @@ namespace my_STL
 	template <typename T, typename Compare>
 	inline const T &max(const T &a, const T &b, Compare comp)
 	{
-		return comp(a, b) ? b : a;
+		return comp(a, b) ? b : a;              //由comp决定比较标准
 	}
 	//****************************************
 
