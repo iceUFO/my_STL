@@ -51,7 +51,7 @@ namespace my_STL
 	{
 		using iterator_category = forward_iterator_tag;
 		using value_type = T;
-		using difference = Distance;
+		using difference_type = Distance;
 		using pointer = T*;
 		using reference = T&;
 	};
@@ -62,7 +62,7 @@ namespace my_STL
 	{
 		using iterator_category = bidirectional_iterator_tag;
 		using value_type = T;
-		using difference = Distance;
+		using difference_type = Distance;
 		using pointer = T*;
 		using reference = T&;
 	};

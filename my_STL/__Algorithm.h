@@ -174,6 +174,30 @@ namespace my_STL
 		return __copy_d(first, last, result, (ptrdiff_t*)0);
 	}
 	//****************************************
+
+	//copy_backward
+	//****************************************
+	//copy_backward·º»¯°æ
+	template <typename BidirectionalIterator1, typename BidirectionalIterator2>
+	inline BidirectionalIterator copy_backward(BidirectionalIterator1 first, 
+		BidirectionalIterator1 last, BidirectionalIterator2 result)
+	{
+		return __copy_backward_dispatch<BidirectionalIterator1, BidirectionalIterator2>()(first, last, result);
+	}
+
+	//__copy_backward_dispatch·º»¯°æ
+	template <typename BidirectionalIterator1, typename BidirectionalIterator2>
+	struct __copy_backward_dispatch
+	{
+		BidirectionalIterator2 operator()(BidirectionalIterator1 first, 
+			BidirectionalIterator1 last, BidirectionalIterator2 result)
+		{
+			return __copy_backward(first, last, result, iterator_category(first), distance_type(first));
+		}
+	};
+
+	
+	//****************************************
 }
 #endif // !__ALGORITHM_H
 
