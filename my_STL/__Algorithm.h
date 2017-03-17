@@ -196,7 +196,30 @@ namespace my_STL
 		}
 	};
 
-	
+	//BidirectionalIterator°æ__copy_backward
+	template <typename BidirectionalIterator1, typename BidirectionalIterator2, typename Distance>
+	inline BidirectionalIterator2 __copy_backward(BidirectionalIterator1 first,
+		BidirectionalIterator1 last, BidirectionalIterator2 result, bidirectional_iterator_tag, Distance*)
+	{
+		while (first != last)
+		{
+			*(--result) = *(--last);
+		}
+		return result;
+	}
+
+	//RandomAccessIterator°æ__copy_backward
+	template <typename RandomAccessIterator, typename BidirectionalIterator, typename Distance>
+	inline BidirectionalIterator __copy_backward(RandomAccessIterator first, 
+		RandomAccessIterator last, BidirectionalIterator result, Distance*)
+	{
+		Distance n = last - first;
+		for (; n > 0; --n)
+		{
+			*(--result) = *(--last);
+		}
+		return result;
+	}
 	//****************************************
 }
 #endif // !__ALGORITHM_H
