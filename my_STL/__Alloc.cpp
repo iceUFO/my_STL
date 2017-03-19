@@ -1,7 +1,3 @@
-#ifndef __OBJ__USE
-#define __OBJ_USE
-#endif // !__OBJ__USE
-
 #include "__Alloc.h"
 
 namespace my_STL
@@ -9,7 +5,7 @@ namespace my_STL
 	char *alloc::start_free = 0;
 	char *alloc::end_free = 0;
 	size_t alloc::heap_size = 0;
-	alloc::obj *free_list[__NFREELISTS] = { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 };
+	alloc::obj *alloc::free_list[__NFREELISTS] = { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 };
 
 	void *alloc::allocate(size_t n)
 	{

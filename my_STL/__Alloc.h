@@ -1,12 +1,6 @@
 #ifndef __ALLOC_H
 #define __ALLOC_H
 
-#ifdef __OBJ_USE
-#	define __PRIVATE public
-#else
-#	define __PRIVATE private
-#endif // __OBJ_USE
-
 #include <cstdlib>
 
 namespace my_STL
@@ -19,28 +13,27 @@ namespace my_STL
 		{
 			__ALIGN = 8
 		};
-		
+
 		//区块上限
-		enum 
+		enum
 		{
 			__MAX_BYTES = 128
 		};
 
 		//free_lists 个数
-		enum 
+		enum
 		{
 			__NFREELISTS = __MAX_BYTES / __ALIGN
 		};
 
-    /*private:
+    private:
 		union obj
 		{
 			union obj *next;
 			char client_data[1];
 		};
 
-	private:
-		static obj *free_list[__NFREELISTS];*/
+		static obj *free_list[__NFREELISTS];
 	private:
 		static char *start_free;         //内存池起始位置
 		static char *end_free;           //内存池结束位置
@@ -69,16 +62,6 @@ namespace my_STL
 		static void *allocate(size_t n);
 		static void deallocate(void *p, size_t n);
 		static void *reallocate(void *p, size_t old_size, size_t new_size);
-
-	__PRIVATE:
-		union obj
-		{
-			union obj *next;
-			char client_data[1];
-		};
-
-	private:
-		static obj *free_list[__NFREELISTS];
 	};
 }
 

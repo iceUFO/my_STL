@@ -57,7 +57,7 @@ namespace my_STL
 		std::pair<T*, T*> alloc_n_copy(const T *b, const T *e)
 		{
 			auto data = data_allocator::allocate(e - b);
-			return{ data, uninitialized_copy(b,e,data) };
+			return{ data, uninitialized_copy(b, e, data) };
 		}
 
 		//destroy元素并释放空间
@@ -99,12 +99,12 @@ namespace my_STL
 		bool operator!=(const vector &rhs) const;
 
 	public:
-		iterator begin()
+		iterator begin() const
 		{
 			return start;
 		}
 
-		iterator end()
+		iterator end() const
 		{
 			return finish;
 		}
@@ -250,10 +250,13 @@ namespace my_STL
 	template <typename T, typename Alloc>
 	typename vector<T, Alloc>::reference vector<T, Alloc>::operator=(const vector &rhs)
 	{
-		auto data = alloc_n_copy(rhs.begin(), rhs.end());
-		free();
-		start = data.first;
-		finish = cap = data.second;
+		if (this != &rhs)
+		{
+			auto data = alloc_n_copy(rhs.begin(), rhs.end());
+			free();
+			start = data.first;
+			finish = cap = data.second;
+		}
 		return *this;
 	}
 

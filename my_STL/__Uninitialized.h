@@ -19,7 +19,7 @@ namespace my_STL
 	template <typename InputIterator, typename ForwardIterator, typename V>
 	inline ForwardIterator __uninitialized_copy(InputIterator first, InputIterator last, ForwardIterator result, V*)
 	{
-		using is_POD = __type_traits<V>::is_POD_type;
+		using is_POD = typename __type_traits<V>::is_POD_type;
 		return __uninitialized_copy_aux(first, last, result, is_POD());
 	}
 
@@ -68,7 +68,7 @@ namespace my_STL
 	template <typename ForwardIterator, typename T, typename V>
 	inline void __uninitialized_fill(ForwardIterator first, ForwardIterator last, const T &x, V*)
 	{
-		using is_POD = __type_traits<V>::is_POD_type;
+		using is_POD = typename __type_traits<V>::is_POD_type;
 		__uninitialized_fill_aux(first, last, x, is_POD());
 	}
 
@@ -102,7 +102,7 @@ namespace my_STL
 	template <typename ForwardIterator, typename Size, typename T, typename V>
 	inline ForwardIterator __uninitialized_fill_n(ForwardIterator first, Size n, const T &x, V*)
 	{
-		using is_POD = __type_traits<V>::is_POD_type;
+		using is_POD = typename __type_traits<V>::is_POD_type;
 		return __uninitialized_fill_n_aux(first, n, x, is_POD());
 	}
 
