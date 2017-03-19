@@ -117,6 +117,7 @@
     <ClInclude Include="__Iterator.h" />
     <ClInclude Include="__Type_traits.h" />
     <ClInclude Include="__Uninitialized.h" />
+    <ClInclude Include="__Vector.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="__Alloc.cpp" />
