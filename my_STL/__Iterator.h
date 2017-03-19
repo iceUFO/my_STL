@@ -82,11 +82,11 @@ namespace my_STL
 	template <typename Iterator>
 	struct iterator_traits
 	{
-		using iterator_category = Iterator::iterator_category;
-		using valu_type = Iterator::value_type;
-		using difference_type = Iterator::difference_type;
-		using pointer = Iterator::pointer;
-		using reference = Iterator::reference;
+		using iterator_category = typename Iterator::iterator_category;
+		using value_type = typename Iterator::value_type;
+		using difference_type = typename Iterator::difference_type;
+		using pointer = typename Iterator::pointer;
+		using reference = typename Iterator::reference;
 	};
 
 	//traits partial specialization
@@ -94,7 +94,7 @@ namespace my_STL
 	struct iterator_traits<T*>
 	{
 		using iterator_category = random_access_iterator_tag;
-		using valu_type = T;
+		using value_type = T;
 		using difference_type = ptrdiff_t;
 		using pointer = T*;
 		using reference = T&;
@@ -104,7 +104,7 @@ namespace my_STL
 	struct iterator_traits<const T*>
 	{
 		using iterator_category = random_access_iterator_tag;
-		using valu_type = T;
+		using value_type = T;
 		using difference_type = ptrdiff_t;
 		using pointer = const T*;
 		using reference = const T&;
@@ -134,7 +134,7 @@ namespace my_STL
 
 	//¼ÆËãµü´úÆ÷¾àÀë
 	template <typename InputIterator>
-	inline iterator_traits<InputIterator>::difference_type 
+	inline typename iterator_traits<InputIterator>::difference_type 
 	__distance(InputIterator first, InputIterator last, input_iterator_tag)
 	{
 		iterator_traits<InputIterator>::difference_type n = 0;
@@ -147,14 +147,14 @@ namespace my_STL
 	}
 
 	template <typename RandomAccessIterator>
-	inline iterator_traits<RandomAccessIterator>::difference_type 
+	inline typename iterator_traits<RandomAccessIterator>::difference_type 
 	__distance(RandomAccessIterator first, RandomAccessIterator last, random_access_iterator_tag)
 	{
 		return last - first;
 	}
 
 	template <typename InputIterator>
-	inline iterator_traits<InputIterator>::difference_type 
+	inline typename iterator_traits<InputIterator>::difference_type 
 	distance(InputIterator first, InputIterator last)
 	{
 		using category = iterator_traits<InputIterator>::iterator_category;

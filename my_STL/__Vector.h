@@ -74,7 +74,7 @@ namespace my_STL
 
 	public:
 		//¹¹Ôìº¯Êý
-		vector() :start(nullptr), end(nullptr), cap(nullptr) {}
+		vector() :start(nullptr), finish(nullptr), cap(nullptr) {}
 		vector(size_type n, const T &value);
 		vector(int n, const T &value);
 		vector(long n, const T &value);
@@ -106,7 +106,7 @@ namespace my_STL
 
 		iterator end()
 		{
-			reutrn end;
+			return finish;
 		}
 
 		size_type size() const
@@ -248,7 +248,7 @@ namespace my_STL
 	}
 
 	template <typename T, typename Alloc>
-	vector<T, Alloc>::reference vector<T, Alloc>::operator=(const vector &rhs)
+	typename vector<T, Alloc>::reference vector<T, Alloc>::operator=(const vector &rhs)
 	{
 		auto data = alloc_n_copy(rhs.begin(), rhs.end());
 		free();
@@ -258,7 +258,7 @@ namespace my_STL
 	}
 
 	template <typename T, typename Alloc>
-	vector<T, Alloc>::reference vector<T, Alloc>::operator=(vector &&rhs)
+	typename vector<T, Alloc>::reference vector<T, Alloc>::operator=(vector &&rhs)
 	{
 		if (this != &rhs)
 		{
@@ -273,13 +273,13 @@ namespace my_STL
 	}
 
 	template <typename T, typename Alloc>
-	vector<T, Alloc>::reference vector<T, Alloc>::operator[](size_type n)
+	typename vector<T, Alloc>::reference vector<T, Alloc>::operator[](size_type n)
 	{
 		return *(begin() + n);
 	}
 
 	template <typename T, typename Alloc>
-	vector<T, Alloc>::const_reference vector<T, Alloc>::operator[](size_type n) const
+	typename vector<T, Alloc>::const_reference vector<T, Alloc>::operator[](size_type n) const
 	{
 		return *(begin() + n);
 	}

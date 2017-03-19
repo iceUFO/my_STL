@@ -23,7 +23,7 @@ namespace my_STL
 	template <typename ForwardIterator>
 	inline void destroy(ForwardIterator first, ForwardIterator last)
 	{
-		__destory(first, last, value(first));
+		__destroy(first, last, value_type(first));
 	}
 
 	//ÅÐ¶ÏÐÍ±ð

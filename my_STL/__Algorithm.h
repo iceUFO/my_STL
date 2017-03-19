@@ -179,7 +179,7 @@ namespace my_STL
 	//****************************************
 	//copy_backward·º»¯°æ
 	template <typename BidirectionalIterator1, typename BidirectionalIterator2>
-	inline BidirectionalIterator copy_backward(BidirectionalIterator1 first, 
+	inline BidirectionalIterator2 copy_backward(BidirectionalIterator1 first, 
 		BidirectionalIterator1 last, BidirectionalIterator2 result)
 	{
 		return __copy_backward_dispatch<BidirectionalIterator1, BidirectionalIterator2>()(first, last, result);
