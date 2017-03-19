@@ -78,6 +78,7 @@ namespace my_STL
 		vector(size_type n, const T &value);
 		vector(int n, const T &value);
 		vector(long n, const T &value);
+		vector(std::initializer_list<T> il);
 		explicit vector(size_type n);
 
 		//拷贝构造
@@ -140,7 +141,7 @@ namespace my_STL
 			if (finish != cap)
 			{
 				construct(finish, x);
-				++finish
+				++finish;
 			}
 			else
 			{
@@ -219,6 +220,19 @@ namespace my_STL
 	vector<T, Alloc>::vector(long n, const T &value)
 	{
 		fill_initialize(n, value);
+	}
+
+	template <typename T, typename Alloc>
+	vector<T, Alloc>::vector(std::initializer_list<T> il)
+	{
+		T* const newdata = data_allocator::allocate(il.size());
+		T *p = newdata;
+		for (auto &t : il)
+		{
+			construct(p++, t);
+		}
+		start = newdata;
+		finish = cap = start + il.size();
 	}
 
 	template <typename T, typename Alloc>
@@ -324,7 +338,7 @@ namespace my_STL
 			construct(finish, *(finish - 1));
 			++finish;
 			T x_copy = x;
-			copy_backward(position, finish - 2; finish - 1);
+			copy_backward(position, finish - 2, finish - 1);
 			*position = x_copy;
 		}
 		else                                             //无备用空间
