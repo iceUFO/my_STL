@@ -16,7 +16,7 @@ namespace my_STL
 		using is_POD_type = __false_type;
 	};
 
-	template <typename type>
+	template <>
 	struct __type_traits<bool>
 	{
 		using has_trivial_default_constructor = __true_type;
@@ -26,7 +26,7 @@ namespace my_STL
 		using is_POD_type = __true_type;
 	};
 
-	template <typename type>
+	template <>
 	struct __type_traits<char>
 	{
 		using has_trivial_default_constructor = __true_type;
@@ -36,7 +36,7 @@ namespace my_STL
 		using is_POD_type = __true_type;
 	};
 
-	template <typename type>
+	template <>
 	struct __type_traits<signed char>
 	{
 		using has_trivial_default_constructor = __true_type;
@@ -46,7 +46,7 @@ namespace my_STL
 		using is_POD_type = __true_type;
 	};
 
-	template <typename type>
+	template <>
 	struct __type_traits<unsigned char>
 	{
 		using has_trivial_default_constructor = __true_type;
@@ -56,7 +56,7 @@ namespace my_STL
 		using is_POD_type = __true_type;
 	};
 
-	template <typename type>
+	template <>
 	struct __type_traits<wchar_t>
 	{
 		using has_trivial_default_constructor = __true_type;
@@ -66,7 +66,7 @@ namespace my_STL
 		using is_POD_type = __true_type;
 	};
 
-	template <typename type>
+	template <>
 	struct __type_traits<short>
 	{
 		using has_trivial_default_constructor = __true_type;
@@ -76,7 +76,7 @@ namespace my_STL
 		using is_POD_type = __true_type;
 	};
 
-	template <typename type>
+	template <>
 	struct __type_traits<unsigned short>
 	{
 		using has_trivial_default_constructor = __true_type;
@@ -86,7 +86,7 @@ namespace my_STL
 		using is_POD_type = __true_type;
 	};
 
-	template <typename type>
+	template <>
 	struct __type_traits<int>
 	{
 		using has_trivial_default_constructor = __true_type;
@@ -96,7 +96,7 @@ namespace my_STL
 		using is_POD_type = __true_type;
 	};
 
-	template <typename type>
+	template <>
 	struct __type_traits<unsigned int>
 	{
 		using has_trivial_default_constructor = __true_type;
@@ -106,7 +106,7 @@ namespace my_STL
 		using is_POD_type = __true_type;
 	};
 
-	template <typename type>
+	template <>
 	struct __type_traits<long>
 	{
 		using has_trivial_default_constructor = __true_type;
@@ -116,7 +116,7 @@ namespace my_STL
 		using is_POD_type = __true_type;
 	};
 
-	template <typename type>
+	template <>
 	struct __type_traits<unsigned long>
 	{
 		using has_trivial_default_constructor = __true_type;
@@ -126,7 +126,7 @@ namespace my_STL
 		using is_POD_type = __true_type;
 	};
 
-	template <typename type>
+	template <>
 	struct __type_traits<long long>
 	{
 		using has_trivial_default_constructor = __true_type;
@@ -136,7 +136,7 @@ namespace my_STL
 		using is_POD_type = __true_type;
 	};
 
-	template <typename type>
+	template <>
 	struct __type_traits<unsigned long long>
 	{
 		using has_trivial_default_constructor = __true_type;
@@ -146,7 +146,7 @@ namespace my_STL
 		using is_POD_type = __true_type;
 	};
 
-	template <typename type>
+	template <>
 	struct __type_traits<float>
 	{
 		using has_trivial_default_constructor = __true_type;
@@ -156,7 +156,7 @@ namespace my_STL
 		using is_POD_type = __true_type;
 	};
 
-	template <typename type>
+	template <>
 	struct __type_traits<double>
 	{
 		using has_trivial_default_constructor = __true_type;
@@ -166,7 +166,7 @@ namespace my_STL
 		using is_POD_type = __true_type;
 	};
 
-	template <typename type>
+	template <>
 	struct __type_traits<long double>
 	{
 		using has_trivial_default_constructor = __true_type;
@@ -176,7 +176,7 @@ namespace my_STL
 		using is_POD_type = __true_type;
 	};
 
-	template <typename type>
+	template <typename T>
 	struct __type_traits<T*>
 	{
 		using has_trivial_default_constructor = __true_type;
@@ -186,7 +186,7 @@ namespace my_STL
 		using is_POD_type = __true_type;
 	};
 
-	template <typename type>
+	template <typename T>
 	struct __type_traits<const T*>
 	{
 		using has_trivial_default_constructor = __true_type;
