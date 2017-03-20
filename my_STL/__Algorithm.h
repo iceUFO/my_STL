@@ -48,6 +48,17 @@ namespace my_STL
 	}
 	//****************************************
 
+	//iter_swap
+	//****************************************
+	template <typename ForwardIterator1, typename ForwardIterator2>
+	inline void iter_swap(ForwardIterator1 a, ForwardIterator2 b)
+	{
+		typename iterator_traits<ForwardIterator1>::value_type temp = *a;
+		*a = *b;
+		*b = temp;
+	}
+	//****************************************
+
 	//fill
 	//****************************************
 	template <typename ForwardIterator, typename T>
