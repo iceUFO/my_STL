@@ -202,6 +202,7 @@ namespace my_STL
 
 		//insert
 		void insert(iterator position, size_type n, const T &x);
+		void insert(iterator position, const T &x);
 	};
 
 	template <typename T, typename Alloc>
@@ -432,6 +433,12 @@ namespace my_STL
 				cap = new_finish + len;
 			}
 		}
+	}
+
+	template <typename T, typename Alloc>
+	void vector<T, Alloc>::insert(iterator position, const T &x)
+	{
+		insert(position, 1, x);
 	}
 }
 
