@@ -123,7 +123,7 @@ namespace my_STL
 	{
 		T *operator()(T *first, T *last, T *result)
 		{
-			using t = __type_traits<T>::has_trivial_assignment_operator;
+			using t = typename __type_traits<T>::has_trivial_assignment_operator;
 			return __copy_t(first, last, result, t());
 		}
 	};
@@ -134,7 +134,7 @@ namespace my_STL
 	{
 		T *operator()(const T *first, const T *last, T *result)
 		{
-			using t = __type_traits<T>::has_trivial_assignment_operator;
+			using t = typename __type_traits<T>::has_trivial_assignment_operator;
 			return __copy_t(first, last, result, t());
 		}
 	};
