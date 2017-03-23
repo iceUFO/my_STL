@@ -26,7 +26,7 @@ namespace my_STL
 		__destroy(first, last, value_type(first));
 	}
 
-	//判断型别
+	//判断是否有trivial destructor
 	template <typename ForwardIterator, typename T>
 	inline void __destroy(ForwardIterator first, ForwardIterator last, T*)
 	{
