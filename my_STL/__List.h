@@ -63,10 +63,34 @@ namespace my_STL
 		template <typename InputIterator>
 		list(InputIterator first, InputIterator last);
 		list(const list &l);
+		list &operator=(const list &rhs);
 		~list();
 
-		//iterator
-		__list_iterator begin()
+		iterator begin()
+		{
+			return node->next;
+		}
+
+		const_iterator begin() const
+		{
+			return node->next;
+		}
+
+		iterator end()
+		{
+			return node;
+		}
+
+		const_iterator end() const
+		{
+			return node;
+		}
+
+		bool empty() const
+		{
+			return node->next == node;
+		}
+
 	};
 }
 
