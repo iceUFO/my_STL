@@ -110,6 +110,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="__List.h" />
     <ClInclude Include="__Algorithm.h" />
     <ClInclude Include="__Alloc.h" />
     <ClInclude Include="__Allocator.h" />

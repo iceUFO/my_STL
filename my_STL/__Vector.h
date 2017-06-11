@@ -15,6 +15,7 @@ namespace my_STL
 		using value_type = T;
 		using pointer = value_type*;
 		using iterator = value_type*;
+		using const_iterator = const value_type*;
 		using reference = value_type&;
 		using const_reference = const value_type&;
 		using size_type = size_t;
@@ -100,12 +101,22 @@ namespace my_STL
 		bool operator!=(const vector &rhs) const;
 
 	public:
-		iterator begin() const
+		iterator begin()
 		{
 			return start;
 		}
 
-		iterator end() const
+		iterator end()
+		{
+			return finish;
+		}
+
+		const_iterator begin() const
+		{
+			return start;
+		}
+
+		const_iterator end() const
 		{
 			return finish;
 		}

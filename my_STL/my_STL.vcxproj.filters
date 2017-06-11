@@ -39,6 +39,9 @@
     <ClInclude Include="__Vector.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="__List.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="__Alloc.cpp">
