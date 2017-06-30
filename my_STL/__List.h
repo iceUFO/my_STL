@@ -71,8 +71,8 @@ namespace my_STL
 		}
 
 		//产生、销毁节点
-		list_node* create_node(const T& value);
-		void destroy_node(list_node* p);
+		list_node* create_node(const T &value);
+		void destroy_node(list_node *p);
 
 	public:
 		list();
@@ -146,46 +146,46 @@ namespace my_STL
 	//__list_iterator
 	/***********************************************************************/
 	template<typename T>
-	inline bool __list_iterator<T>::operator==(const __list_iterator &p) const
+	bool __list_iterator<T>::operator==(const __list_iterator &p) const
 	{
 		return node == p.node;
 	}
 	template<typename T>
-	inline bool __list_iterator<T>::operator!=(const __list_iterator & p) const
+	bool __list_iterator<T>::operator!=(const __list_iterator & p) const
 	{
 		return node != p.node;
 	}
 	template<typename T>
-	inline T& __list_iterator<T>::operator*() const
+	T& __list_iterator<T>::operator*() const
 	{
 		return node->data;
 	}
 	template<typename T>
-	inline T* __list_iterator<T>::operator->() const
+	T* __list_iterator<T>::operator->() const
 	{
 		return &(operator*());
 	}
 	template<typename T>
-	inline __list_iterator<T>& __list_iterator<T>::operator++()
+	__list_iterator<T>& __list_iterator<T>::operator++()
 	{
 		node = node->next;
 		return *this;
 	}
 	template<typename T>
-	inline __list_iterator<T> __list_iterator<T>::operator++(int)
+	__list_iterator<T> __list_iterator<T>::operator++(int)
 	{
 		auto temp = *this;
 		++*this;
 		return temp;
 	}
 	template<typename T>
-	inline __list_iterator<T>& __list_iterator<T>::operator--()
+	__list_iterator<T>& __list_iterator<T>::operator--()
 	{
 		node = node->prev;
 		return *this;
 	}
 	template<typename T>
-	inline __list_iterator<T> __list_iterator<T>::operator--(int)
+	__list_iterator<T> __list_iterator<T>::operator--(int)
 	{
 		auto temp = *this;
 		--*this;
@@ -195,7 +195,34 @@ namespace my_STL
 	/***********************************************************************/
 	//list
 	/***********************************************************************/
+	template<typename T, typename Alloc>
+	inline void list<T, Alloc>::empty_initialize()
+	{
+		node = get_node();
+		node->next = node;
+		node->prev = node;
+	}
 
+	template<typename T, typename Alloc>
+	inline typename list<T, Alloc>::list_node* list<T, Alloc>::create_node(const T &value)
+	{
+		list_node *p = get_node();
+		construct(&p->data, value);
+		return p;
+	}
+
+	template<typename T, typename Alloc>
+	inline void list<T, Alloc>::destroy_node(list_node *p)
+	{
+		destroy(&p->data);
+		put_node(p);
+	}
+
+	template<typename T, typename Alloc>
+	list<T, Alloc>::list()
+	{
+		empty_initialize();
+	}
 
 }
 
