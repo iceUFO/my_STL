@@ -29,13 +29,13 @@ namespace my_STL
 		bool operator==(const __list_iterator &p) const;
 		bool operator!=(const __list_iterator &p) const;
 		
-		reference operator*() const;
-		pointer operator->() const;
+		T& operator*() const;
+		T* operator->() const;
 
 		__list_iterator &operator++();
-		__list_iterator &operator++(int);
+		__list_iterator operator++(int);
 		__list_iterator &operator--();
-		__list_iterator &operator--(int);
+		__list_iterator operator--(int);
 
 	};
 
@@ -57,6 +57,23 @@ namespace my_STL
 		list_node *node;
 		void empty_initialize();
 
+	protected:
+		//配置节点
+		list_node* get_node()
+		{
+			return list_node_allocator::allocate();
+		}
+
+		//释放节点
+		void put_node(list_node* p)
+		{
+			list_node_allocator::deallocate(p);
+		}
+
+		//产生、销毁节点
+		list_node* create_node(const T& value);
+		void destroy_node(list_node* p);
+
 	public:
 		list();
 		list(size_type n, const T &val);
@@ -66,6 +83,7 @@ namespace my_STL
 		list &operator=(const list &rhs);
 		~list();
 
+		//Iterator
 		iterator begin()
 		{
 			return node->next;
@@ -86,12 +104,99 @@ namespace my_STL
 			return node;
 		}
 
+		//Capacity
 		bool empty() const
 		{
 			return node->next == node;
 		}
 
+		size_type size() const
+		{
+			return my_STL::distance(begin(), end());
+		}
+
+		//Element access
+		reference front()
+		{
+			return *begin();
+		}
+
+		reference back()
+		{
+			return *(--end());
+		}
+
+		//Modifiers
+		void clear();
+		iterator insert(iterator pos, const T& value);
+
+		void pop_front()
+		{
+			erase(begin());
+		}
+
+		void pop_back()
+		{
+			erase(--end());
+		}
+
 	};
+
+	/***********************************************************************/
+	//__list_iterator
+	/***********************************************************************/
+	template<typename T>
+	inline bool __list_iterator<T>::operator==(const __list_iterator &p) const
+	{
+		return node == p.node;
+	}
+	template<typename T>
+	inline bool __list_iterator<T>::operator!=(const __list_iterator & p) const
+	{
+		return node != p.node;
+	}
+	template<typename T>
+	inline T& __list_iterator<T>::operator*() const
+	{
+		return node->data;
+	}
+	template<typename T>
+	inline T* __list_iterator<T>::operator->() const
+	{
+		return &(operator*());
+	}
+	template<typename T>
+	inline __list_iterator<T>& __list_iterator<T>::operator++()
+	{
+		node = node->next;
+		return *this;
+	}
+	template<typename T>
+	inline __list_iterator<T> __list_iterator<T>::operator++(int)
+	{
+		auto temp = *this;
+		++*this;
+		return temp;
+	}
+	template<typename T>
+	inline __list_iterator<T>& __list_iterator<T>::operator--()
+	{
+		node = node->prev;
+		return *this;
+	}
+	template<typename T>
+	inline __list_iterator<T> __list_iterator<T>::operator--(int)
+	{
+		auto temp = *this;
+		--*this;
+		return temp;
+	}
+
+	/***********************************************************************/
+	//list
+	/***********************************************************************/
+
+
 }
 
 #endif // !__LIST_H
