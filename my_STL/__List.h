@@ -2,6 +2,7 @@
 #define __LIST_H
 
 #include "__Allocator.h"
+#include "__Construct.h"
 #include "__Iterator.h"
 
 namespace my_STL
@@ -16,15 +17,17 @@ namespace my_STL
 	};
 
 	template <typename T>
-	struct __list_iterator :public bidirectional_iterator<T, ptrdiff_t>
+	struct __list_iterator :public iterator<bidirectional_iterator_tag, T>
 	{
-		using list_node_pointer = __list_node<T>*;
-		using const_list_node_pointer = const __list_node<T>*;
-		list_node_pointer node;
+		template<typename T, typename Alloc>
+		friend class list;
+		using list_node_ptr = __list_node<T>*;
+		using const_list_node_ptr = const __list_node<T>*;
+		list_node_ptr node;
 
-		__list_iterator(list_node_pointer p) :node(p) {}
-		__list_iterator(const_list_node_pointer &p) :node(p) {}
-		__list_lterator(const __list_iterator &p) :node(p.node) {}
+		__list_iterator(list_node_ptr p = nullptr) :node(p) {}
+		__list_iterator(const_list_node_ptr &p) :node(p) {}
+		__list_iterator(const __list_iterator &p) :node(p.node) {}
 
 		bool operator==(const __list_iterator &p) const;
 		bool operator!=(const __list_iterator &p) const;
@@ -39,11 +42,14 @@ namespace my_STL
 
 	};
 
-	template <typename T, typename Alloc = allocator<T>>
+	template <typename T, typename Alloc = allocator<__list_node<T>>>
 	class list
 	{
+		template<typename T>
+		friend struct __list_iterator;
 	protected:
 		using list_node = __list_node<T>;
+		using list_node_ptr = __list_node<T>*;
 		using list_node_allocator = Alloc;
 
 	public:
@@ -65,7 +71,7 @@ namespace my_STL
 		}
 
 		//ÊÍ·Å½Úµã
-		void put_node(list_node* p)
+		void put_node(list_node *p)
 		{
 			list_node_allocator::deallocate(p);
 		}
@@ -78,7 +84,7 @@ namespace my_STL
 		list();
 		list(size_type n, const T &val);
 		template <typename InputIterator>
-		list(InputIterator first, InputIterator last);
+		list(InputIterator *first, InputIterator *last);
 		list(const list &l);
 		list &operator=(const list &rhs);
 		~list();
@@ -129,6 +135,13 @@ namespace my_STL
 		//Modifiers
 		void clear();
 		iterator insert(iterator pos, const T& value);
+		void insert(iterator pos, size_type count, const T &value);
+		template<typename InputIterator>
+		void insert(iterator pos, InputIterator *first, InputIterator *last);
+		iterator erase(iterator pos);
+		iterator erase(iterator first, iterator last);
+		void push_front(const T &val);
+		void push_back(const T &val);
 
 		void pop_front()
 		{
@@ -138,6 +151,11 @@ namespace my_STL
 		void pop_back()
 		{
 			erase(--end());
+		}
+
+		void swap(list &l)
+		{
+			my_STL::swap(node, l.node);
 		}
 
 	};
@@ -222,6 +240,144 @@ namespace my_STL
 	list<T, Alloc>::list()
 	{
 		empty_initialize();
+	}
+
+	template<typename T, typename Alloc>
+	list<T, Alloc>::list(size_type n, const T & val)
+	{
+		empty_initialize();
+		while (n--)
+		{
+			push_back(val);
+		}
+	}
+
+	template<typename T, typename Alloc>
+	template<typename InputIterator>
+	list<T, Alloc>::list(InputIterator *first, InputIterator *last)
+	{
+		empty_initialize();
+		while (first != last)
+		{
+			push_back(*first);
+			++first;
+		}
+	}
+
+	template<typename T, typename Alloc>
+	list<T, Alloc>::list(const list &l)
+	{
+
+		empty_initialize();
+		iterator first = l.begin();
+		iterator last = l.end();
+		while (first != last)
+		{
+			push_back(*first);
+			++first;
+		}
+	}
+
+	template<typename T, typename Alloc>
+	list<T, Alloc> &list<T, Alloc>::operator=(const list &rhs)
+	{
+		if (this != &rhs)
+		{
+			clear();
+			iterator first = rhs.begin();
+			iterator last = rhs.end();
+			while (first != last)
+			{
+				push_back(*first);
+				++first;
+			}
+		}
+		return *this;
+	}
+
+	template<typename T, typename Alloc>
+	list<T, Alloc>::~list()
+	{
+		clear();
+		put_node(node);
+	}
+
+	template<typename T, typename Alloc>
+	void list<T, Alloc>::clear()
+	{
+		list_node *cur = node->next;
+		while (cur != node)
+		{
+			list_node *tmp = cur;
+			cur = cur->next;
+			destroy_node(tmp);
+		}
+		node->next = node;
+		node->prev = node;
+	}
+
+	template<typename T, typename Alloc>
+	typename list<T, Alloc>::iterator list<T, Alloc>::insert(iterator pos, const T &value)
+	{
+		list_node *temp = create_node(value);
+		temp->next = pos.node;
+		temp->prev = pos.node->prev;
+		pos.node->prev->next = temp;
+		pos.node->prev = temp;
+		return temp;
+	}
+
+	template<typename T, typename Alloc>
+	void list<T, Alloc>::insert(iterator pos, size_type count, const T &value)
+	{
+		while (count--)
+		{
+			insert(pos, value);
+		}
+	}
+
+	template<typename T, typename Alloc>
+	template<typename InputIterator>
+	void list<T, Alloc>::insert(iterator pos, InputIterator *first, InputIterator *last)
+	{
+		while (first != last)
+		{
+			insert(pos, *first);
+			++first;
+		}
+	}
+
+	template<typename T, typename Alloc>
+	typename list<T, Alloc>::iterator list<T, Alloc>::erase(iterator pos)
+	{
+		iterator temp = pos.node->next;
+		pos.node->prev->next = pos.node->next;
+		pos.node->next->prev = pos.node->prev;
+		destroy_node(pos.node);
+		return temp;
+	}
+
+	template<typename T, typename Alloc>
+	typename list<T, Alloc>::iterator list<T, Alloc>::erase(iterator first, iterator last)
+	{
+		iterator result;
+		while (first != last)
+		{
+			result = erase(first++);
+		}
+		return result;
+	}
+
+	template<typename T, typename Alloc>
+	void list<T, Alloc>::push_front(const T & val)
+	{
+		insert(begin(), val);
+	}
+
+	template<typename T, typename Alloc>
+	void list<T, Alloc>::push_back(const T  &val)
+	{
+		insert(end(), val);
 	}
 
 }
