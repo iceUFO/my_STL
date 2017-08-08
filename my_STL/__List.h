@@ -158,6 +158,23 @@ namespace my_STL
 			my_STL::swap(node, l.node);
 		}
 
+		//Operations
+	protected:
+		void transfer(iterator pos, iterator first, iterator last);
+	public:
+		void splice(iterator pos, list &other);
+		void splice(iterator pos, list &other, iterator i);
+		void splice(iterator pos, list &other, iterator first, iterator last);
+		void merge(list &other);
+		template <typename Compare>
+		void merge(list &other, Compare comp);
+		void reverse();
+
+		template <typename T>
+		friend bool operator==(const list<T> &lhs, const list<T> &rhs);
+		template <typename T>
+		friend bool operator!=(const list<T> &lhs, const list<T> &rhs);
+
 	};
 
 	/***********************************************************************/
@@ -378,6 +395,136 @@ namespace my_STL
 	void list<T, Alloc>::push_back(const T  &val)
 	{
 		insert(end(), val);
+	}
+
+	template<typename T, typename Alloc>
+	void list<T, Alloc>::transfer(iterator pos, iterator first, iterator last)
+	{
+		list_node_ptr position = pos.node;
+		list_node_ptr fst = first.node;
+		list_node_ptr lst = last.node;
+		list_node_ptr temp = position->prev;
+		lst->prev->next = position;
+		fst->prev->next = lst;
+		temp->next = fst;
+		position->prev = lst->prev;
+		lst->prev = fst->prev;
+		fst->prev = temp;
+	}
+
+	template<typename T, typename Alloc>
+	void list<T, Alloc>::splice(iterator pos, list &other)
+	{
+		if (!other.empty())
+		{
+			transfer(pos, other.begin(), other.end());
+		}
+	}
+
+	template<typename T, typename Alloc>
+	void list<T, Alloc>::splice(iterator pos, list &other, iterator i)
+	{
+		iterator j = i;
+		++j;
+		if (pos == i || pos == j) return;
+		transfer(pos, i, j);
+	}
+
+	template<typename T, typename Alloc>
+	void list<T, Alloc>::splice(iterator pos, list & other, iterator first, iterator last)
+	{
+		if (first != last)
+		{
+			transfer(pos, first, last);
+		}
+	}
+
+	template<typename T, typename Alloc>
+	void list<T, Alloc>::merge(list & other)
+	{
+		iterator first1 = begin();
+		iterator last1 = end();
+		iterator first2 = other.begin();
+		iterator last2 = other.end();
+		if (first1 != last1 && first2 != last2)
+		{
+			if (*first2 < *first1)
+			{
+				iterator next = first2;
+				transfer(first1, first2, ++next);
+				first2 = next;
+			}
+			else
+			{
+				++first1;
+			}
+			if (first2 != last2)
+			{
+				transfer(last1, first2, last2);
+			}
+		}
+	}
+
+	template <typename T, typename Alloc>
+	template <typename Compare>
+	void list<T, Alloc>::merge(list &other, Compare comp)
+	{
+		iterator first1 = begin();
+		iterator last1 = end();
+		iterator first2 = other.begin();
+		iterator last2 = other.end();
+		if (first1 != last1 && first2 != last2)
+		{
+			if (comp(*first2, *first1))
+			{
+				iterator next = first2;
+				transfer(first1, first2, ++next);
+				first2 = next;
+			}
+			else
+			{
+				++first1;
+			}
+			if (first2 != last2)
+			{
+				transfer(last1, first2, last2);
+			}
+		}
+	}
+
+	template <typename T, typename Alloc>
+	void list<T, Alloc>::reverse()
+	{
+		if (node->next == node || node->next->next == node) return;
+		iterator first = begin();
+		++first;
+		while (first != end())
+		{
+			iterator old = first;
+			++first;
+			transfer(begin(), old, first);
+		}
+	}
+
+	template<typename T>
+	bool operator==(const list<T>& lhs, const list<T>& rhs)
+	{
+		auto first1 = lhs.begin();
+		auto last1 = lhs.end();
+		auto first2 = rhs.begin();
+		auto last2 = rhs.end();
+		if (first1 != last1 && first2 != last2 && first1 == first2)
+		{
+			++first1;
+			++first2;
+		}
+		return first1 == last1 && first2 == last2;
+	}
+
+	template<typename T>
+	bool operator!=(const list<T>& lhs, const list<T>& rhs)
+	{
+		return !(lhs == rhs);
 	}
 
 }
