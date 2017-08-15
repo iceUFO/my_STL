@@ -1,6 +1,7 @@
 #ifndef __LIST_H
 #define __LIST_H
 
+#include<utility>
 #include "__Allocator.h"
 #include "__Construct.h"
 #include "__Iterator.h"
@@ -26,7 +27,7 @@ namespace my_STL
 		list_node_ptr node;
 
 		__list_iterator(list_node_ptr p = nullptr) :node(p) {}
-		__list_iterator(const_list_node_ptr &p) :node(p) {}
+		__list_iterator(const_list_node_ptr p) :node(p) {}
 		__list_iterator(const __list_iterator &p) :node(p.node) {}
 
 		bool operator==(const __list_iterator &p) const;
@@ -55,7 +56,7 @@ namespace my_STL
 	public:
 		using value_type = T;
 		using iterator = __list_iterator<T>;
-		using const_iterator = __list_iterator<const T>;
+		using const_iterator = const __list_iterator<T>;
 		using reference = T&;
 		using size_type = size_t;
 
@@ -86,6 +87,7 @@ namespace my_STL
 		template <typename InputIterator>
 		list(InputIterator *first, InputIterator *last);
 		list(const list &l);
+		list(std::initializer_list<T> il);
 		list &operator=(const list &rhs);
 		~list();
 
@@ -169,6 +171,10 @@ namespace my_STL
 		template <typename Compare>
 		void merge(list &other, Compare comp);
 		void reverse();
+		void remove(const T &value);
+		template <typename Predicate>
+		void remove_if(Predicate p);
+		void unique();
 
 		template <typename T>
 		friend bool operator==(const list<T> &lhs, const list<T> &rhs);
@@ -292,6 +298,16 @@ namespace my_STL
 		{
 			push_back(*first);
 			++first;
+		}
+	}
+
+	template<typename T, typename Alloc>
+	list<T, Alloc>::list(std::initializer_list<T> il)
+	{
+		empty_initialize();
+		for (auto i : il)
+		{
+			push_back(i);
 		}
 	}
 
@@ -446,7 +462,7 @@ namespace my_STL
 		iterator last1 = end();
 		iterator first2 = other.begin();
 		iterator last2 = other.end();
-		if (first1 != last1 && first2 != last2)
+		while (first1 != last1 && first2 != last2)
 		{
 			if (*first2 < *first1)
 			{
@@ -458,10 +474,10 @@ namespace my_STL
 			{
 				++first1;
 			}
-			if (first2 != last2)
-			{
-				transfer(last1, first2, last2);
-			}
+		}
+		if (first2 != last2)
+		{
+			transfer(last1, first2, last2);
 		}
 	}
 
@@ -473,7 +489,7 @@ namespace my_STL
 		iterator last1 = end();
 		iterator first2 = other.begin();
 		iterator last2 = other.end();
-		if (first1 != last1 && first2 != last2)
+		while (first1 != last1 && first2 != last2)
 		{
 			if (comp(*first2, *first1))
 			{
@@ -485,10 +501,10 @@ namespace my_STL
 			{
 				++first1;
 			}
-			if (first2 != last2)
-			{
-				transfer(last1, first2, last2);
-			}
+		}
+		if (first2 != last2)
+		{
+			transfer(last1, first2, last2);
 		}
 	}
 
@@ -503,6 +519,53 @@ namespace my_STL
 			iterator old = first;
 			++first;
 			transfer(begin(), old, first);
+		}
+	}
+
+	template<typename T, typename Alloc>
+	void list<T, Alloc>::remove(const T &value)
+	{
+		for (auto it = begin(); it != end(); it++)
+		{
+			if (*it == value)
+			{
+				it = erase(it);
+				--it;
+			}
+		}
+	}
+
+	template<typename T, typename Alloc>
+	template<typename Predicate>
+	void list<T, Alloc>::remove_if(Predicate p)
+	{
+		for (auto it = begin(); it != end(); it++)
+		{
+			if (p(*it))
+			{
+				it = erase(it);
+				--it;
+			}
+		}
+	}
+
+	template<typename T, typename Alloc>
+	void list<T, Alloc>::unique()
+	{
+		iterator first = begin();
+		iterator last = end();
+		iterator next = first;
+		while (++next != last)
+		{
+			if (*first == *next)
+			{
+				erase(next);
+			}
+			else
+			{
+				first = next;
+			}
+			next = first;
 		}
 	}
 
