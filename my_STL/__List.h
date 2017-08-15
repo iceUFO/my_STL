@@ -5,6 +5,7 @@
 #include "__Allocator.h"
 #include "__Construct.h"
 #include "__Iterator.h"
+#include "__Algorithm.h"
 
 namespace my_STL
 {
@@ -175,6 +176,7 @@ namespace my_STL
 		template <typename Predicate>
 		void remove_if(Predicate p);
 		void unique();
+		void sort();
 
 		template <typename T>
 		friend bool operator==(const list<T> &lhs, const list<T> &rhs);
@@ -567,6 +569,35 @@ namespace my_STL
 			}
 			next = first;
 		}
+	}
+
+	template<typename T, typename Alloc>
+	void list<T, Alloc>::sort()
+	{
+		if (node->next == node || node->next->next == node) return;
+		list carry;
+		list counter[64];
+		int fill = 0;
+		while (!empty())
+		{
+			carry.splice(carry.begin(), *this, begin());
+			int i = 0;
+			while (i < fill && !counter[i].empty())
+			{
+				counter[i].merge(carry);
+				carry.swap(counter[i++]);
+			}
+			carry.swap(counter[i]);
+			if (i == fill)
+			{
+				++fill;
+			}
+		}
+		for (int i = 1; i < fill; ++i)
+		{
+			counter[i].merge(counter[i - 1]);
+		}
+		swap(counter[fill - 1]);
 	}
 
 	template<typename T>
