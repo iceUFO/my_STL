@@ -86,7 +86,7 @@ namespace my_STL
 		list();
 		list(size_type n, const T &val);
 		template <typename InputIterator>
-		list(InputIterator *first, InputIterator *last);
+		list(InputIterator first, InputIterator last);
 		list(const list &l);
 		list(std::initializer_list<T> il);
 		list &operator=(const list &rhs);
@@ -140,7 +140,7 @@ namespace my_STL
 		iterator insert(iterator pos, const T& value);
 		void insert(iterator pos, size_type count, const T &value);
 		template<typename InputIterator>
-		void insert(iterator pos, InputIterator *first, InputIterator *last);
+		void insert(iterator pos, InputIterator first, InputIterator last);
 		iterator erase(iterator pos);
 		iterator erase(iterator first, iterator last);
 		void push_front(const T &val);
@@ -279,7 +279,7 @@ namespace my_STL
 
 	template<typename T, typename Alloc>
 	template<typename InputIterator>
-	list<T, Alloc>::list(InputIterator *first, InputIterator *last)
+	list<T, Alloc>::list(InputIterator first, InputIterator last)
 	{
 		empty_initialize();
 		while (first != last)
@@ -373,7 +373,7 @@ namespace my_STL
 
 	template<typename T, typename Alloc>
 	template<typename InputIterator>
-	void list<T, Alloc>::insert(iterator pos, InputIterator *first, InputIterator *last)
+	void list<T, Alloc>::insert(iterator pos, InputIterator first, InputIterator last)
 	{
 		while (first != last)
 		{
